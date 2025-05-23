@@ -29,7 +29,9 @@ export default function RootLayout({ children }) {
         "min-h-screen bg-background font-sans antialiased",
         fontSans.variable
       )}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex items-center justify-center h-screen">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+        </div>}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
