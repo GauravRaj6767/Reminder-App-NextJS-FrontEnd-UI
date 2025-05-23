@@ -1,103 +1,60 @@
-import Image from "next/image";
+"use client"
+
+import { useAuth } from "@/components/authProvider";
+import { ThemeToggleButton } from "@/components/themeToggleButton";
+import useSWR from "swr";
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation";
+import { DJANGO_API_ENDPOINT } from "@/config/defaults";
+
+console.log("TEST ENDPOINT 1 -----   " + DJANGO_API_ENDPOINT)
+const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const auth = useAuth();
+  const router = useRouter()
+  console.log("TEST ENDPOINT in -----   " + DJANGO_API_ENDPOINT)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const { data, error, isLoading } = useSWR(`${DJANGO_API_ENDPOINT}/hello`, fetcher);
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="bg-red-100 text-red-700 border border-red-400 px-6 py-4 rounded-md shadow-md animate-fade-in">
+          <p className="font-semibold text-lg">Oops! API Server is Down.</p>
+          <p className="text-sm mt-1">Please check your connection or try again later.</p>
         </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-rows-[auto_1fr_auto] items-center justify-items-center min-h-screen p-8 sm:p-20 font-[family-name:var(--font-geist-sans)] bg-gradient-to-b from-blue-50 to-blue-100 dark:from-zinc-900 dark:to-zinc-800">
+      <header className="w-full flex justify-end">
+        <ThemeToggleButton />
+      </header>
+
+      <main className="flex flex-col gap-6 items-center text-center">
+        <h1 className="text-4xl sm:text-5xl font-bold text-blue-700 dark:text-white">Welcome to MedMind</h1>
+        <p className="text-lg sm:text-xl text-zinc-700 dark:text-zinc-300 max-w-xl">
+          Your personal medicine reminder app. Stay on track with your health by never missing a dose again.
+        </p>
+        <div className="mt-4 text-xl font-medium text-blue-900 dark:text-zinc-100">
+          {auth.isAuthenticated ? `Hello, ${auth.username ? auth.username : "User"}! 👋` : "Hello Guest! Please log in to manage your reminders."}
+        </div>
+        <Button onClick={e => router.push('/reminders/new')} className="hover:cursor-pointer">
+          Create a New Reminder
+        </Button>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
     </div>
   );
 }
