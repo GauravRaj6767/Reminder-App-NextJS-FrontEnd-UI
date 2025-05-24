@@ -122,7 +122,7 @@ export default function SignupForm() {
                         >
                             Cancel
                         </Button>
-                        <Button type="submit">Sign Up</Button>
+                        <Button type="submit" className="hover:cursor-pointer">Sign Up</Button>
                     </div>
                 </form>
             </Form>
