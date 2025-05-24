@@ -2,6 +2,8 @@
 
 This is the frontend for the **Reminder App**, built with **Next.js 14 App Router**, **Shadcn UI**, and **Tailwind CSS**. It connects to a Django backend via REST APIs and provides a responsive user interface for managing reminders.
 
+Live deployed website on Railway : https://reminder-app-nextjs-frontend-ui-production.up.railway.app/
+
 ---
 
 ## 🚀 Tech Stack
