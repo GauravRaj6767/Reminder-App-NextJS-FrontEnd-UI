@@ -1,13 +1,10 @@
 This repository contains the Next.js frontend of the Medicine Reminder App.
 
 Features
-Authentication: User registration and login functionalities.
-<br>
-Dashboard: Overview of upcoming and past medication reminders.
-
-Responsive Design: Ensures optimal viewing on various devices.
-
-Integration: Communicates seamlessly with the Django backend API.
+*Authentication: User registration and login functionalities.
+*Dashboard: Overview of upcoming and past medication reminders.
+*Responsive Design: Ensures optimal viewing on various devices.
+*Integration: Communicates seamlessly with the Django backend API.
 
 Getting Started
 Clone the repository:
